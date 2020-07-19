@@ -10,15 +10,15 @@ class JWT
     public function getToken():string {
         return $this->base64UrlEncode($this->header).'.'.$this->base64UrlEncode($this->payload).'.'.$this->signature();
     }
-    public function setHeader($key,$value):JWT {
+    public function setHeader($key,$value):self {
         $this->header[$key] = $value;
         return $this;
     }
-    public function setPayload($key,$value):JWT {
+    public function setPayload($key,$value):self {
         $this->payload[$key] = $value;
         return $this;
     }
-    public function setKey($key):JWT {
+    public function setKey($key):self {
         $this->key = $key;
         return $this;
     }
