@@ -9,30 +9,47 @@ class JWT
     private $header = ['typ' => 'JWT'];
     private $payload = [];
     private $key = '';
-    public function getToken():string {
+    public function getToken():string
+    {
         return $this->base64UrlEncode($this->header).'.'.$this->base64UrlEncode($this->payload).'.'.$this->signature();
     }
-    public function setHeader($key,$value):self {
+    public function analyticToken($token)
+    {
+        $tokenArray = explode('.',$token);
+        $this->header = $this->base64Decode($tokenArray[0]);
+        $this->payload = $this->base64Decode($tokenArray[1]);
+        if ($tokenArray[2] == $this->signature()) {
+            return true;
+        }
+        return false;
+    }
+    public function setHeader($key,$value):self
+    {
         $this->header[$key] = $value;
         return $this;
     }
-    public function setPayload($key,$value):self {
+    public function setPayload($key,$value):self
+    {
         $this->payload[$key] = $value;
         return $this;
     }
-    public function setKey($key):self {
+    public function setKey($key):self
+    {
         $this->key = $key;
         return $this;
     }
-    private function base64UrlEncode($value):string {
+    private function base64UrlEncode($value):string
+    {
         return Base64Url::encode($value);
     }
 
-    private function base64Decode($value):array {
+    private function base64Decode($value):array
+    {
         return Base64Url::decode($value);
     }
 
-    private function signature(){
+    private function signature()
+    {
         return hash_hmac('sha256',$this->base64UrlEncode($this->header).'.'.$this->base64UrlEncode($this->payload),$this->key);
     }
 }
