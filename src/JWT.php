@@ -19,7 +19,10 @@ class JWT
         $this->header = $this->base64Decode($tokenArray[0]);
         $this->payload = $this->base64Decode($tokenArray[1]);
         if ($tokenArray[2] == $this->signature()) {
-            return true;
+            return [
+                'header' => $this->header,
+                'payload' => $this->payload
+            ];
         }
         return false;
     }
