@@ -20,11 +20,11 @@ class Base64Url
     }
 
     private static function _jsonEncode($array) {
-        return json_encode($array);
+        return json_encode($array,JSON_UNESCAPED_UNICODE);
     }
 
     private static function _jsonDecode($string) {
-        return json_decode($string);
+        return json_decode($string,true);
     }
 
     private static function _urlSafeEncode($string) {

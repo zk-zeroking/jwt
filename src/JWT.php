@@ -2,6 +2,8 @@
 declare(strict_types = 1);
 namespace ZeroKing;
 
+use ZeroKing\Base64Url\Base64Url;
+
 class JWT
 {
     private $header = ['typ' => 'JWT'];
@@ -23,11 +25,11 @@ class JWT
         return $this;
     }
     private function base64UrlEncode($value):string {
-
+        return Base64Url::encode($value);
     }
 
-    private function base64Decode($value):string {
-
+    private function base64Decode($value):array {
+        return Base64Url::decode($value);
     }
 
     private function signature(){
